@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import type { Country } from '@api/countries';
 
 const listItemStyles = StyleSheet.create({
@@ -30,14 +31,14 @@ export default class CountryListItem extends React.PureComponent<{ item: Country
   render() {
     const { item } = this.props;
     return (
-      <View style={listItemStyles.container}>
+      <Animatable.View animation="fadeIn" iterationCount={1} style={listItemStyles.container}>
         <View style={listItemStyles.innerContainer}>
           <Text style={listItemStyles.strongLineText}>{item.name}</Text>
           <Text style={listItemStyles.normalLineText}>{item.subregion}</Text>
           <Text style={listItemStyles.normalLineText}>{item.capital}</Text>
           <Text style={listItemStyles.normalLineText}>Lang: {item.language}</Text>
         </View>
-      </View>
+      </Animatable.View>
     );
   }
 }
