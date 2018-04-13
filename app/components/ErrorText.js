@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
@@ -23,8 +25,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ({ children }) => (
+export default (props: { children: string }) => (
   <View>
-    <Text style={styles.errorText}>{children}</Text>
+    <Text style={styles.errorText}>{props.children}</Text>
   </View>
 );
