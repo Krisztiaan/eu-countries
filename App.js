@@ -1,10 +1,13 @@
-import React from 'react';
-import RootContainer from './app/containers/RootContainer';
+// @flow
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <RootContainer />
-    );
-  }
-}
+import React from 'react';
+import { Provider } from 'react-redux';
+
+import RootContainer from './app/containers/RootContainer';
+import configureStore from './app/redux/configureStore';
+
+export default () => (
+  <Provider store={configureStore()}>
+    <RootContainer />
+  </Provider>
+);

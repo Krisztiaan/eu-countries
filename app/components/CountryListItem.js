@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View, Text, StyleSheet, Animated } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import type { Country } from '@api/countries';
 
 const listItemStyles = StyleSheet.create({

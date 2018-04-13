@@ -1,62 +1,43 @@
+// @flow
+
 import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-import ErrorText from '../components/ErrorText';
-import CountryListItem from '../components/CountryListItem';
+import { connect } from 'react-redux';
+import { AppLoading } from 'expo';
+import { fetchCountriesAction } from '@redux/countriesActions';
+import type { Country } from '@api/countries';
+import type { State, Dispatch } from '@redux/configureStore';
+import ErrorText from '@components/ErrorText';
+import CountryListItem from '@components/CountryListItem';
+import styles from './styles/ListScreenStyles';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#242424',
-    alignItems: 'stretch',
-    justifyContent: 'space-between',
-  },
-  header: {
-    height: 70,
-    backgroundColor: '#F1C143',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  content: {
-    flex: 1,
-  },
-  headerText: {
-    fontWeight: '700',
-    fontSize: 25,
-    color: '#242424',
-    textAlign: 'center',
-    alignSelf: 'center',
-  },
-  titleText: {
-    padding: 12,
-    fontWeight: '700',
-    fontSize: 25,
-    color: '#FCFAFD',
-    textAlign: 'center',
-    alignSelf: 'flex-start',
-  },
-  list: {
-    flex: 1,
-  },
-});
+export const listScreenPath = '/countries';
 
+export const listScreenPreloadAction = fetchCountriesAction;
 
 const countryListHeader = () => <Text style={styles.titleText}>Europe</Text>;
 
-const countryKeyExtractor = (item) => item.numericCode;
 
-export default class ListScreen extends React.PureComponent {
-  _renderItem = ({ item }) => <CountryListItem item={item}/>
+
+const countryKeyExtractor = (item: Country) => item.numericCode;
+
+class ListScreen extends React.PureComponent<{...State, dispatch: Dispatch}> {
+  _refreshList = () => this.props.dispatch(fetchCountriesAction())
+
+  _renderItem = ({ item }: { item: Country }) => <CountryListItem item={item}/>
 
   render() {
-    const { countries, isLoading, error } = this.props;
-    if (error) console.warn(error);
-    const content = error ? <ErrorText>Something happened, check your internet connection, and try again later.</ErrorText> :
+    const { data, isLoading, error } = this.props;
+
+    const content = error ? <ErrorText>{error}</ErrorText> :
       <FlatList
         style={styles.list}
         keyExtractor={countryKeyExtractor}
-        data={countries}
+        data={data}
         renderItem={this._renderItem}
         ListHeaderComponent={countryListHeader}
+        onRefresh={this._refreshList}
+        refreshing={isLoading}
       />
 
     return (
@@ -71,3 +52,5 @@ export default class ListScreen extends React.PureComponent {
     );
   }
 }
+
+export default connect((state: State) => state)(ListScreen);

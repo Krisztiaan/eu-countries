@@ -1,57 +1,36 @@
+// @flow
+
 import React from 'react';
-import { View, Text, TouchableHighlight, StyleSheet} from 'react-native';
+import { View, Text } from 'react-native';
+import { Link } from 'react-router-native';
+import { connect } from 'react-redux';
+import type { Dispatch } from '@redux/configureStore';
+import { listScreenPath, listScreenPreloadAction } from './ListScreen';
+import styles from './styles/StartScreenStyles';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#242424',
-    alignItems: 'stretch',
-    justifyContent: 'space-between',
-  },
-  titleText: {
-    fontWeight: '700',
-    fontSize: 40,
-    color: '#FCFAFD',
-    textAlign: 'center',
-    alignSelf: 'center',
-  },
-  spacingView: {
-    height: 70,
-    marginBottom: 100,
-    marginRight: 20,
-    marginLeft: 20,
-  },
-  buttonContainer: {
-    height: 70,
-    marginBottom: 100,
-    marginRight: 20,
-    marginLeft: 20,
-    backgroundColor: '#4F85E3',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonText: {
-    fontWeight: '700',
-    fontSize: 25,
-    color: '#FCFAFD',
-    textAlign: 'center',
-  },
-});
+export const startScreenPath = '/';
 
-export default class StartScreen extends React.PureComponent {
+class StartScreen extends React.PureComponent<{
+  dispatch: Dispatch,
+}> {
+  onStartButtonPressIn = () => {
+    this.props.dispatch(listScreenPreloadAction());
+  };
+
   render() {
-    const { onStartPressIn, onStartPress } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.spacingView} />
         <Text style={styles.titleText}>EU{'\n'}COUNTRIES</Text>
-        <TouchableHighlight
+        <Link
+          to={listScreenPath}
           style={styles.buttonContainer}
-          onPressIn={onStartPressIn}
-          onPress={onStartPress}>
+          onPressIn={this.onStartButtonPressIn}>
           <Text style={styles.buttonText}>START</Text>
-        </TouchableHighlight>
+        </Link>
       </View>
     );
   }
 }
+
+export default connect()(StartScreen);
