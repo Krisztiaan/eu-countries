@@ -49,10 +49,8 @@ export default class ListScreen extends React.PureComponent {
 
   render() {
     const { countries, isLoading, error } = this.props;
-
-    console.log(this.props)
-
-    const content = error ? <ErrorText>{JSON.stringify(error)}</ErrorText> :
+    if (error) console.warn(error);
+    const content = error ? <ErrorText>Something happened, check your internet connection, and try again later.</ErrorText> :
       <FlatList
         style={styles.list}
         keyExtractor={countryKeyExtractor}
