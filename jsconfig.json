@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@api/*": ["app/api/*"],
+      "@components/*": ["app/components/*"],
+      "@containers/*": ["app/containers/*"],
+      "@navigation/*": ["app/navigation/*"],
+      "@redux/*": ["app/redux/*"],
+      "@node_modules/*": ["node_modules/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}
